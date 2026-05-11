@@ -3,7 +3,15 @@
 :root {
   --font-size: 16px;
 
-  /* PhiliFinds Brand Colors */
+  /* PhiliFinds Brand Colors - Nature-Inspired Palette */
+  --primary-forest: #2D4C2D;
+  --primary-sage: #7AA082;
+  --bg-cream: #FAF9F6;
+  --bg-mint: #D9EAD3;
+  --accent-sand: #D2B48C;
+  --text-charcoal: #1A1A1A;
+
+  /* Legacy color names for compatibility */
   --forest-green: #2D4C2D;
   --sage-green: #7AA082;
   --mint-green: #D9EAD3;
@@ -133,6 +141,12 @@
   --color-cream: var(--cream);
   --color-terracotta: var(--terracotta);
   --color-charcoal: var(--charcoal);
+  --color-primary-forest: var(--primary-forest);
+  --color-primary-sage: var(--primary-sage);
+  --color-bg-cream: var(--bg-cream);
+  --color-bg-mint: var(--bg-mint);
+  --color-accent-sand: var(--accent-sand);
+  --color-text-charcoal: var(--text-charcoal);
 }
 
 @layer base {

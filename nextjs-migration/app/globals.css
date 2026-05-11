@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-forest: #2D4C2D;
+  --primary-sage: #7AA082;
+  --bg-cream: #FAF9F6;
+  --bg-mint: #D9EAD3;
+  --accent-sand: #D2B48C;
+  --text-charcoal: #1A1A1A;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-cream text-text-charcoal;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text-charcoal;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-primary-forest text-white rounded-full hover:opacity-90 transition-opacity shadow-soft;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-primary-sage text-white rounded-full hover:opacity-90 transition-opacity shadow-soft;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-soft p-6 border border-gray-100;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-sage;
+  }
+}

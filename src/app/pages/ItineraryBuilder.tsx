@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, ArrowRight, Sparkles, Cloud, MapPin, Calendar, DollarSign, Users, Compass } from 'lucide-react';
+import NimnimLoader from '../components/shared/NimnimLoader';
 
 type TravelStyle = 'relaxing' | 'adventure' | 'island-hopping' | 'cultural';
 
@@ -50,10 +52,18 @@ export default function ItineraryBuilder() {
     }
   };
 
+  if (isGenerating) {
+    return (
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <NimnimLoader message="Creating your perfect Philippine adventure..." size="lg" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="bg-white border-b border-border">
+      <header className="bg-white border-b border-border shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <button
@@ -65,9 +75,19 @@ export default function ItineraryBuilder() {
             </button>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-secondary rounded-2xl flex items-center justify-center">
+              <motion.div
+                className="w-10 h-10 bg-secondary rounded-2xl flex items-center justify-center"
+                animate={{
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
                 <Cloud className="w-5 h-5 text-white" />
-              </div>
+              </motion.div>
               <div>
                 <p className="text-sm text-muted-foreground">Planning with</p>
                 <p className="font-medium">Nimnim</p>
@@ -95,9 +115,16 @@ export default function ItineraryBuilder() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Step 1: Destination */}
-        {step === 1 && (
-          <div className="animate-in fade-in duration-300">
+        <AnimatePresence mode="wait">
+          {/* Step 1: Destination */}
+          {step === 1 && (
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
             <div className="text-center mb-8">
               <MapPin className="w-16 h-16 text-primary mx-auto mb-4" />
               <h2 className="text-3xl mb-2">Where do you want to go?</h2>
@@ -130,12 +157,18 @@ export default function ItineraryBuilder() {
                 placeholder="Enter city or province..."
               />
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Step 2: Budget & Duration */}
         {step === 2 && (
-          <div className="animate-in fade-in duration-300">
+          <motion.div
+            key="step2"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-center mb-8">
               <Calendar className="w-16 h-16 text-primary mx-auto mb-4" />
               <h2 className="text-3xl mb-2">Plan your timeline & budget</h2>
@@ -194,12 +227,18 @@ export default function ItineraryBuilder() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Step 3: Group Size & Travel Style */}
         {step === 3 && (
-          <div className="animate-in fade-in duration-300">
+          <motion.div
+            key="step3"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="text-center mb-8">
               <Compass className="w-16 h-16 text-primary mx-auto mb-4" />
               <h2 className="text-3xl mb-2">Choose your travel style</h2>
@@ -255,8 +294,9 @@ export default function ItineraryBuilder() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
 
         {/* Navigation Buttons */}
         <div className="mt-12 flex gap-4">
@@ -272,20 +312,11 @@ export default function ItineraryBuilder() {
           ) : (
             <button
               onClick={handleGenerate}
-              disabled={!canProceed() || isGenerating}
-              className="flex-1 bg-primary text-primary-foreground py-4 rounded-2xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              disabled={!canProceed()}
+              className="flex-1 bg-primary text-primary-foreground py-4 rounded-2xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
             >
-              {isGenerating ? (
-                <>
-                  <Cloud className="w-5 h-5 animate-bounce" />
-                  <span>Nimnim is creating your itinerary...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-5 h-5" />
-                  <span>Generate Itinerary</span>
-                </>
-              )}
+              <Sparkles className="w-5 h-5" />
+              <span className="text-lg">Generate Itinerary</span>
             </button>
           )}
         </div>

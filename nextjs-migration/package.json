@@ -1,0 +1,40 @@
+{
+  "name": "philifinds-nextjs",
+  "version": "1.0.0",
+  "description": "AI-Powered Travel Planning Platform for the Philippines - Next.js Migration",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@supabase/supabase-js": "^2.45.0",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "openai": "^4.67.0",
+    "lucide-react": "^0.487.0",
+    "framer-motion": "^11.11.0",
+    "recharts": "^2.15.2",
+    "date-fns": "^3.6.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

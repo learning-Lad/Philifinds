@@ -1,5 +1,30 @@
 # PhiliFinds - Quick Start Guide
 
+## 🎉 LATEST UPDATES
+
+### ✨ New Enhancements (Just Added!)
+
+1. **Nimnim Loader Component**
+   - Beautiful animated loading screen with floating Nimnim mascot
+   - Smooth particle animations
+   - Full-screen loading state during itinerary generation
+
+2. **Enhanced Itinerary Builder**
+   - Smooth step transitions using Framer Motion
+   - AnimatePresence for seamless step changes
+   - Pulsing Nimnim mascot in header
+
+3. **Refined Design Tokens**
+   - Updated color palette with nature-inspired naming
+   - Consistent 16px rounded corners throughout
+   - Soft shadows for depth
+
+4. **Next.js 14 Migration Package** 🚀
+   - Complete TypeScript setup
+   - Node.js API routes for AI, costs, and emergency support
+   - Supabase integration ready
+   - Production deployment configuration
+
 ## 🚀 What's Been Built
 
 PhiliFinds is now a fully functional travel planning platform with:
@@ -91,9 +116,32 @@ The application currently uses realistic mock data:
 - Travel analytics and trends
 - Emergency support tickets
 
+## 🚀 Next.js Migration Package
+
+A complete Next.js 14 version with TypeScript and Node.js API routes is ready in `/nextjs-migration/`!
+
+### What's Included:
+- ✅ **AI Generation API** (`/api/ai/generate`) - Real OpenAI integration
+- ✅ **Cost Estimator API** (`/api/costs`) - Regional pricing engine
+- ✅ **Emergency Support API** (`/api/emergency`) - Location-based contacts
+- ✅ **TypeScript** - Full type safety
+- ✅ **Supabase Config** - Database types and client setup
+- ✅ **Production Ready** - Deploy to Vercel, Netlify, etc.
+
+### Quick Setup:
+```bash
+cd nextjs-migration
+npm install
+cp .env.example .env.local
+# Add your API keys to .env.local
+npm run dev
+```
+
+See `MIGRATION_GUIDE.md` for complete instructions!
+
 ## 🔌 Connecting Supabase
 
-When ready for real data:
+When ready for real data (applies to both versions):
 
 1. Use the Supabase connection in Figma Make settings
 2. Create these database tables:
