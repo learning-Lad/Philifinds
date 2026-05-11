@@ -12,6 +12,7 @@ Complete Next.js 14 implementation with TypeScript, Node.js API routes, and Supa
 - **Framer Motion** for animations
 - **Supabase** client configuration
 - **OpenAI API** integration
+- **OpenStreetMap** with Leaflet for maps (FREE!)
 
 ### ✅ API Routes (Node.js)
 
@@ -37,6 +38,7 @@ Complete Next.js 14 implementation with TypeScript, Node.js API routes, and Supa
 
 - **`lib/supabase.ts`** - Supabase client & admin configuration + TypeScript types
 - **`lib/ai-prompts.ts`** - Structured prompts for AI generation
+- **`lib/maps.ts`** - OpenStreetMap utilities (geocoding, distance calc, coordinates)
 - **`lib/utils.ts`** - Utility functions (coming soon)
 
 ### ✅ Configuration Files
@@ -83,8 +85,10 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 # OpenAI (from https://platform.openai.com/api-keys)
 OPENAI_API_KEY=sk-your-openai-key
 
-# Google Maps (from https://console.cloud.google.com)
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_key
+# OpenStreetMap - FREE! (No API key needed)
+# Optional: Set your app details for Nominatim rate limits
+NEXT_PUBLIC_APP_NAME=PhiliFinds
+NEXT_PUBLIC_APP_EMAIL=your-email@example.com
 
 # App URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -321,6 +325,7 @@ nextjs-migration/
 │   ├── layout.tsx
 │   └── globals.css
 ├── components/
+│   ├── Map.tsx                       ← OpenStreetMap component
 │   ├── ui/                           ← Reusable UI components
 │   ├── itinerary/                    ← Itinerary-specific
 │   ├── admin/                        ← Admin dashboard
@@ -328,6 +333,7 @@ nextjs-migration/
 ├── lib/
 │   ├── supabase.ts                   ← Supabase configuration
 │   ├── ai-prompts.ts                 ← AI prompt templates
+│   ├── maps.ts                       ← OpenStreetMap utilities
 │   └── utils.ts                      ← Utility functions
 ├── public/                           ← Static assets
 ├── .env.example                      ← Environment template
@@ -361,6 +367,89 @@ nextjs-migration/
 - AWS Amplify
 - DigitalOcean App Platform
 
+## 🗺️ OpenStreetMap Integration
+
+PhiliFinds uses **OpenStreetMap** - a free, open-source mapping solution (no API key required!).
+
+### Features
+
+✅ **Free Forever** - No API keys, no billing, no limits  
+✅ **Leaflet.js** - Interactive maps with React  
+✅ **Nominatim API** - Geocoding (address ↔ coordinates)  
+✅ **Zero Setup** - Works immediately after `npm install`
+
+### Using the Map Component
+
+```tsx
+import dynamic from 'next/dynamic';
+
+// Dynamically import to avoid SSR issues with Leaflet
+const Map = dynamic(() => import('@/app/components/Map'), {
+  ssr: false,
+  loading: () => <div>Loading map...</div>,
+});
+
+export default function MyPage() {
+  return (
+    <Map
+      center={{ lat: 11.9674, lng: 121.9248 }}  // Boracay
+      zoom={13}
+      markers={[
+        {
+          position: { lat: 11.9674, lng: 121.9248 },
+          label: 'White Beach',
+          description: 'Famous beach destination'
+        }
+      ]}
+    />
+  );
+}
+```
+
+### Geocoding Utilities
+
+```typescript
+import { forwardGeocode, reverseGeocode, PHILIPPINE_DESTINATIONS } from '@/lib/maps';
+
+// Convert location name to coordinates
+const results = await forwardGeocode('Boracay, Philippines');
+// [{ lat: 11.9674, lon: 121.9248, display_name: '...' }]
+
+// Convert coordinates to location name
+const location = await reverseGeocode({ lat: 11.9674, lng: 121.9248 });
+// { display_name: 'White Beach, Boracay...', address: {...} }
+
+// Use predefined destinations
+const cebuCoords = PHILIPPINE_DESTINATIONS.cebu;
+// { lat: 10.3157, lng: 123.8854 }
+```
+
+### API Route Example
+
+The Emergency API already uses OpenStreetMap for reverse geocoding:
+
+```typescript
+// In /api/emergency/route.ts
+const location = await reverseGeocode(coordinates);
+// Returns location name for coordinate-based emergency requests
+```
+
+### Adding Map Styles to Your App
+
+Add Leaflet CSS to your `app/layout.tsx`:
+
+```tsx
+import 'leaflet/dist/leaflet.css';
+```
+
+### Why OpenStreetMap?
+
+- ✅ **Cost**: $0/month vs Google Maps $200/month (after free tier)
+- ✅ **Privacy**: No tracking, no data collection
+- ✅ **Community**: Open data, constantly updated
+- ✅ **Philippines Coverage**: Excellent coverage of all regions
+- ✅ **Offline Capable**: Can cache tiles for offline use
+
 ## 📝 Next Steps
 
 1. **Create Page Components**: Build the frontend pages using the React components from the current app
@@ -386,6 +475,9 @@ The current React app can be migrated page by page:
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Supabase Documentation](https://supabase.com/docs)
 - [OpenAI API Reference](https://platform.openai.com/docs)
+- [OpenStreetMap](https://www.openstreetmap.org/)
+- [Leaflet Documentation](https://leafletjs.com/reference.html)
+- [Nominatim API](https://nominatim.org/release-docs/latest/api/Overview/)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [Framer Motion](https://www.framer.com/motion/)
 

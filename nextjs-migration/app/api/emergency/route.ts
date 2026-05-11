@@ -142,11 +142,42 @@ export async function POST(request: NextRequest) {
 }
 
 async function reverseGeocode(coordinates: { lat: number; lng: number }): Promise<string> {
-  // Simplified location detection based on coordinates
-  // In production, use Google Maps Geocoding API
   const { lat, lng } = coordinates;
 
-  // Basic region detection
+  try {
+    // Use OpenStreetMap Nominatim for reverse geocoding (FREE!)
+    const appName = process.env.NEXT_PUBLIC_APP_NAME || 'PhiliFinds';
+    const appEmail = process.env.NEXT_PUBLIC_APP_EMAIL || '';
+
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10&addressdetails=1`,
+      {
+        headers: {
+          'User-Agent': `${appName} ${appEmail}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      const address = data.address;
+
+      // Extract location from response
+      if (address.state || address.province) {
+        const location = (address.state || address.province).toLowerCase();
+
+        // Match to our regions
+        if (location.includes('palawan')) return 'palawan';
+        if (location.includes('aklan') || location.includes('boracay')) return 'boracay';
+        if (location.includes('cebu')) return 'cebu';
+        if (location.includes('manila') || location.includes('metro')) return 'manila';
+      }
+    }
+  } catch (error) {
+    console.error('[Geocoding] Error:', error);
+  }
+
+  // Fallback to coordinate-based detection
   if (lat >= 9 && lat <= 11 && lng >= 118 && lng <= 120) {
     return 'palawan';
   }
