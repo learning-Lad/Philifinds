@@ -80,27 +80,3 @@ Please create a JSON response with the following structure:
 
 Generate a comprehensive, realistic, and exciting itinerary that maximizes value within the budget.`;
 };
-
-export const refineCostEstimatePrompt = (activities: string[], region: string): string => {
-  return `As a Philippines travel cost expert, provide accurate cost estimates for these activities in ${region}:
-
-${activities.map((a, i) => `${i + 1}. ${a}`).join('\n')}
-
-Return a JSON object with cost estimates in PHP:
-{
-  "estimates": [
-    {
-      "activity": "Activity name",
-      "estimated_cost": 0,
-      "cost_range": "₱XXX - ₱XXX",
-      "notes": "Additional cost considerations"
-    }
-  ]
-}
-
-Consider:
-- Regional price variations (Palawan/Boracay are 30-40% more expensive than provincial areas)
-- Group size discounts
-- Peak vs off-season pricing
-- Current 2026 market rates`;
-};
